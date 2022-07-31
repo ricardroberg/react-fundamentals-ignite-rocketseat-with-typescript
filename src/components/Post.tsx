@@ -1,5 +1,5 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import uuid from "react-uuid";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
+import { v4 as uuid } from "uuid";
 import { format, formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
@@ -14,10 +14,16 @@ interface AuthorProps {
   avatarUrl: string
 }
 
+interface ContentProps {
+  type: 'paragraph' | 'link' | 'hashTag'
+  content: string[]
+}
+
 interface PostProps {
+  key: string
   author: AuthorProps
   publishedAt: Date
-  content: string
+  content: ContentProps[]
 
 }
 
@@ -47,11 +53,11 @@ export function Post({ author, content, publishedAt }: PostProps) {
     setNewCommentText(event.target.value);
   }
 
-  function handleNewCommentInvalid(event) {
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
     event.target.setCustomValidity("Esse campo é obrigatório!");
   }
 
-  function deleteComments(commentToDelete) {
+  function deleteComments(commentToDelete: string) {
     const commentsWithoutDeletedOne = comments.filter((comment) => {
       return comment !== commentToDelete;
     });

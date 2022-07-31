@@ -203,11 +203,41 @@ function handleSomeThing(event: FormEvent) {
   // and typed it with correct Event
   event.preventDefault();
 }
+```
 
-// OR passing who trigger the event, this case <HTMLTextAreaElement>
-function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
-  setNewCommentText(event.target.value);
+// OR passing who trigger the event, this case
+
+```tsx
+<HTMLTextAreaElement>(
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    setNewCommentText(event.target.value);
+  }
+);
+```
+
+If the propertie is a function with param but no return:
+
+```tsx
+interface CommentProp {
+  content: string;
+  onDeleteComments: (comment: string) => void;
 }
 ```
 
-#### Adding Typescript on a previous created application (TODO)
+Use exclamation in properties to indicate as optional:
+
+```tsx
+interface AvatarProps {
+  hasBorder?: boolean; // optional
+  src: string;
+  alt?: string; //optional
+}
+```
+
+When using personal type (interface) for an existed element(img, link, etc) you dont need to pass all the element properties, just extend his Attributes from react:
+
+```tsx
+interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
+  hasBorder?: boolean;
+}
+```

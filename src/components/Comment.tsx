@@ -4,7 +4,12 @@ import Avatar from "./Avatar";
 
 import styles from "./Comment.module.css";
 
-export function Comment({ content, onDeleteComments }) {
+interface CommentProp {
+  content: string
+  onDeleteComments: (comment: string) => void
+}
+
+export function Comment({ content, onDeleteComments }: CommentProp) {
   const [likeCount, setLikeCount] = useState(0);
 
   function handleDeleteComment() {
@@ -19,7 +24,7 @@ export function Comment({ content, onDeleteComments }) {
 
   return (
     <div className={styles.comment}>
-      <Avatar src="https://github.com/ricardroberg.png" />
+      <Avatar src="https://github.com/ricardroberg.png" hasBorder={false} alt="" />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
@@ -34,7 +39,7 @@ export function Comment({ content, onDeleteComments }) {
               </time>
             </div>
             <button
-              onClick={(id) => handleDeleteComment(id)}
+              onClick={handleDeleteComment}
               title="Deletar comentário"
             >
               <Trash size={24} />
